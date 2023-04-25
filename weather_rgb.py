@@ -4,7 +4,7 @@ from datetime import timedelta
 import schedule
 import board, neopixel
 class Forecast:
-    def __init__(self,api_key = "f9a3c987-15db-40fb-abc6-312e6381e68f", locator_code = "350893"):
+    def __init__(self,api_key = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", locator_code = "xxxxxx"):
         self._temperature_dict={
             '-5':(0,0,153),
             '-4':(0,0,153),
@@ -89,15 +89,14 @@ class Weather(Forecast,Strip):
         temps = self.get_forecast()
         for i in range(self._num_pixels):
             self._pixels[i] = self._temperature_dict[temps[i]]
-            print(i)
         self._pixels.show()
         
         return temps
 
 weather = Weather()
 weather.get_vals_set_pixels()
-#schedule.every().day.at("23:55").do(weather.set_pixels())
+schedule.every().day.at("23:55").do(weather.get_vals_set_pixels())
 
-#while True:
-#    schedule.run_pending(weather.self_get_forecast())
-#    time.sleep(1)
+while True:
+    schedule.run_pending(weather.self_get_forecast())
+    time.sleep(30)
