@@ -2,10 +2,10 @@ import requests
 from datetime import datetime
 from datetime import timedelta
 import schedule
-#import board, neopixel
+import board, neopixel
 class Forecast:
     def __init__(self,api_key = "f9a3c987-15db-40fb-abc6-312e6381e68f", locator_code = "350893"):
-        self.__temperature_dict={
+        self._temperature_dict={
             '-5':(0,0,153),
             '-4':(0,0,153),
             '-3':(0,0,255),
@@ -37,27 +37,27 @@ class Forecast:
             '23':(255,0,0,),
             '24':(255,0,0),
             }
-        self.__resource = "val/wxfcs/all/json/"
-        self.__locator_code = locator_code
-        self.__api_key = api_key
-        self.__endpoint = f"http://datapoint.metoffice.gov.uk/public/data/{self.__resource}{self.__locator_code}?res=3hourly&key={self.__api_key}"
-        self.__list_sites = "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=f9a3c987-15db-40fb-abc6-312e6381e68f"
-        self.__site_list  = requests.get(self.__list_sites).json()
+        self._resource = "val/wxfcs/all/json/"
+        self._locator_code = locator_code
+        self._api_key = api_key
+        self._endpoint = f"http://datapoint.metoffice.gov.uk/public/data/{self._resource}{self._locator_code}?res=3hourly&key={self._api_key}"
+        self._list_sites = "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=f9a3c987-15db-40fb-abc6-312e6381e68f"
+        self._site_list  = requests.get(self._list_sites).json()
     
     def get_forecast(self) -> list:
         tomorrow = datetime.today().date()+timedelta(days=1)
         display_date = tomorrow.strftime("%Y-%m-%dZ")
-        forecast = requests.get(self.__endpoint).json()
+        forecast = requests.get(self._endpoint).json()
         temperature_list=[]
         if forecast['SiteRep']['DV']['Location']['Period'][1]['value']==display_date:
             for i in forecast['SiteRep']['DV']['Location']['Period'][1]['Rep']:
                 temperature_list.append((i['T']))
 
-        temperature_list = self.__pad_temps(temperature_list)
+        temperature_list = self._pad_temps(temperature_list)
         
         return temperature_list
     
-    def __pad_temps(self,temps,val1=0,val2=1,padded_temps=[]) -> list:
+    def _pad_temps(self,temps,val1=0,val2=1,padded_temps=[]) -> list:
         temps = [float(x) for x in temps]
         for x in range(7):
             padded_temps.append((temps[val1]+temps[val2])/2)
@@ -71,30 +71,33 @@ class Forecast:
             
         return temps
 
-class Strip():
-    def __init__(self):      
-        self.__pixel_pin = board.D18
-        self.__num_pixels = 15
-        self.__order = neopixel.GRB
-        self.__pixels = neopixel.NeoPixel(
-            self.__pixel_pin, self.__num_pixels, brightness = 0.2, auto_write = False, pixel_order = self.__order
+class Strip:
+    def __init__(self):
+        self._pixel_pin = board.D18
+        self._num_pixels = 15
+        self._order = neopixel.GRB
+        self._pixels = neopixel.NeoPixel(
+            self._pixel_pin, self._num_pixels, brightness = 0.2, auto_write = False, pixel_order = self._order
         )
 
 class Weather(Forecast,Strip):
     def __init__(self):
-        pass
+        super().__init__()
+        super(Forecast,self).__init__()
     
     def get_vals_set_pixels(self):
-        self.temps = self.get_forecast()
-        for i in self.num_pixels:
-            self.__pixels[i] = self.__temperature_dict[self.__temps[i]]
-        self.__pixels.show()
-
+        temps = self.get_forecast()
+        for i in range(self._num_pixels):
+            self._pixels[i] = self._temperature_dict[temps[i]]
+            print(i)
+        self._pixels.show()
+        
+        return temps
 
 weather = Weather()
 weather.get_vals_set_pixels()
-schedule.every().day.at("23:55").do(weather.set_pixels())
+#schedule.every().day.at("23:55").do(weather.set_pixels())
 
-while True:
-    schedule.run_pending(weather.self__get_forecast())
-    time.sleep(1)
+#while True:
+#    schedule.run_pending(weather.self_get_forecast())
+#    time.sleep(1)
