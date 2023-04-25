@@ -2,7 +2,7 @@
 
 ## Using a RGB Light Strip to indicate the 24 hour temperature range
 
-###### I bought myself the excellent [https://thepihut.com/products/maker-advent-calendar-includes-raspberry-pi-pico-h] (Maker Advent Calendar - The 12 Projects of Codemas last Christmas). Sadly I didn't stick with my original plan just to work through a day at a time and treat myself to the goodies contained within. Come March, I finally thought to take a look in the last drawer, which turned out to contain a nice WS2812 addressable RGB light strip, sometimes known as NeoPixels.
+###### I bought myself the excellent [Maker Advent Calendar - The 12 Projects of Codemas last Christmas](https://thepihut.com/products/maker-advent-calendar-includes-raspberry-pi-pico-h) . Sadly I didn't stick with my original plan just to work through a day at a time and treat myself to the goodies contained within. Come March, I finally thought to take a look in the last drawer, which turned out to contain a nice WS2812 addressable RGB light strip, sometimes known as NeoPixels.
 
 ###### Now the point is to use the goodies with the included RPi Pico H, but all the things I thought to use it for required internet access, so I hooked it up to a RPi 4 for this project instead.
 
