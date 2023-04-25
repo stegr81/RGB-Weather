@@ -22,6 +22,8 @@ IMAGE TO BE HERE - wiring guide
 
 ###### From this point, you should be able to use the code in the repo wholesale, subbing in your API key for the hashed out example, likewise with the location code.
 
+###### The pixel pin referenced in the code refers to the GPIO pin you use. It isn't absolute that you use this one, just be sure to reference correctly in your code.
+
 ###### As I expected to be the case, but disappointingly nevertheless, the temperature range in the UK is often so narrow over 24 hours that it's actually hard to distinguish any real difference in the pixels. In the 24 hour period I test this, the temperature range was 4-8 degrees, so only 3 colours on display, based on my RGB dictionary. You might find a better range. I went with -5C up to +25C as I figured that most temperatures in the UK will normally fall in this range; anything above or below just hitting the max or min colour option. I did consider adding in wind speed and percentage chance of precipitation with some method of distinguishing which forecast you're seeing, but given the relative lack of success on the temp scale...I didn't bother!
 
 
