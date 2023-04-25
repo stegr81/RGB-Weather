@@ -88,7 +88,13 @@ class Weather(Forecast,Strip):
     def get_vals_set_pixels(self):
         temps = self.get_forecast()
         for i in range(self._num_pixels):
-            self._pixels[i] = self._temperature_dict[temps[i]]
+            try:
+                self._pixels[i] = self._temperature_dict[temps[i]]
+            except KeyError:
+                if int(i)>24:
+                    self._pixels[i] = self._temperature_dict[temps['24']])
+                elif int(i)<-5:
+                    self._pixels[i] = self._temperature_dict[temps['-5']])
         self._pixels.show()
         
         return temps
