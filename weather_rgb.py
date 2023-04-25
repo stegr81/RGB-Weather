@@ -101,8 +101,8 @@ class Weather(Forecast,Strip):
 
 weather = Weather()
 weather.get_vals_set_pixels()
-schedule.every().day.at("23:55").do(weather.get_vals_set_pixels())
+schedule.every().day.at("23:55").do(weather.get_vals_set_pixels)
 
 while True:
-    schedule.run_pending(weather.self_get_forecast())
-    time.sleep(30)
+    schedule.run_pending()
+    time.sleep(15)
